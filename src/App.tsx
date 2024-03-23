@@ -1,17 +1,19 @@
 import "./App.css";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "./ui-components/ErrorFallback";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { BankAccount } from "./types";
 import decodeAccounts from "./utils/decodeAccounts";
 
 function App() {
   const [displayedAccounts, setDisplayedAccounts] = useState<BankAccount[]>([]);
+  const [inputValue, setInputValue] = useState<File | null>(null);
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    const result = decodeAccounts();
+    const fileContents = await inputValue?.text();
+    const result = decodeAccounts(fileContents ?? "");
 
     setDisplayedAccounts((displayedAccounts) => {
       const newDisplayedAccounts = [...displayedAccounts, ...result];
@@ -23,7 +25,14 @@ function App() {
     <>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <form onSubmit={(event) => handleSubmit(event)}>
-          <input type="file"></input>
+          <input
+            type="file"
+            onChange={(event) => {
+              const files = event?.target?.files;
+              const file = files ? files[0] : null;
+              setInputValue(file);
+            }}
+          ></input>
           <button>Submit</button>
         </form>
       </ErrorBoundary>
