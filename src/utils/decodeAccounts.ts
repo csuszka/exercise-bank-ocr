@@ -1,4 +1,5 @@
 import { BankAccount } from "../types";
+import accountStatus from "./accountStatus";
 import createDigit from "./createDigit";
 
 export default function decodeAccounts(fileContent: string): BankAccount[] {
@@ -27,7 +28,8 @@ export default function decodeAccounts(fileContent: string): BankAccount[] {
 
   for (let a = 0; a < digitStrings.length; a = a + 9) {
     const currentAccount = digitStrings.substring(a, a + 9);
-    accounts.push({ number: currentAccount, status: "OK" });
+    const currentStatus = accountStatus(currentAccount);
+    accounts.push({ number: currentAccount, status: currentStatus });
   }
   return accounts;
 }

@@ -1,8 +1,6 @@
 import decodeAccounts from "./decodeAccounts";
 import { expect, test } from "vitest";
 
-const text = "\r\n";
-const text2 = "                           \r\n";
 const compliantAccounts =
   " _     _  _     _  _  _  _ \r\n" +
   "| |  | _| _||_||_ |_   ||_|\r\n" +
@@ -14,5 +12,14 @@ const compliantAccounts =
   "\r\n";
 
 test("Accounts are decoded", () => {
-  expect(decodeAccounts(compliantAccounts)).toBe("012345678");
+  expect(decodeAccounts(compliantAccounts)).toStrictEqual([
+    {
+      number: "012345678",
+      status: "ERR",
+    },
+    {
+      number: "123456789",
+      status: "OK",
+    },
+  ]);
 });

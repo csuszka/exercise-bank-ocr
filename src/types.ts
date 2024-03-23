@@ -1,4 +1,6 @@
 export type BankAccount = {
   number: string;
-  status: "ERR" | "ILL" | "OK";
+  status: BankAccountStatus;
 };
+
+export type BankAccountStatus = "ERR" | "ILL" | "OK";
