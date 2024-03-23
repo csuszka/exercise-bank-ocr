@@ -16,7 +16,7 @@ export default function createDigit(input: string): string {
   if (input === "   " + "|_|" + "  |") {
     return "4";
   }
-  if (input === " _ " + " _|" + "|_ ") {
+  if (input === " _ " + "|_ " + " _|") {
     return "5";
   }
   if (input === " _ " + "|_ " + "|_|") {
