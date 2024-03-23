@@ -1,6 +1,4 @@
 export default function createDigit(input: string): string {
-  console.log(input);
-
   if (input === " _ " + "| |" + "|_|") {
     return "0";
   }
