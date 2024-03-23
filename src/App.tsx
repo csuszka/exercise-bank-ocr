@@ -1,23 +1,29 @@
 import "./App.css";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "./ui-components/ErrorFallback";
-import { useState } from "react";
-
-type BankAccount = {
-  number: string;
-  status: "ERR" | "ILL" | "OK";
-};
+import { FormEvent, useState } from "react";
+import { BankAccount } from "./types";
+import decodeAccounts from "./utils/decodeAccounts";
 
 function App() {
-  const [displayedAccounts /*setDisplayedAccounts*/] = useState<BankAccount[]>(
-    []
-  );
+  const [displayedAccounts, setDisplayedAccounts] = useState<BankAccount[]>([]);
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+
+    const result = decodeAccounts();
+
+    setDisplayedAccounts((displayedAccounts) => {
+      const newDisplayedAccounts = [...displayedAccounts, ...result];
+      return newDisplayedAccounts;
+    });
+  };
+
   return (
     <>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <form>
+        <form onSubmit={(event) => handleSubmit(event)}>
           <input type="file"></input>
-          <button></button>
           <button>Submit</button>
         </form>
       </ErrorBoundary>
@@ -29,9 +35,9 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {displayedAccounts.map((account) => {
+          {displayedAccounts.map((account, index) => {
             return (
-              <tr>
+              <tr key={index}>
                 <th scope="row">{account.number}</th>
                 <td>{account.status}</td>
               </tr>
