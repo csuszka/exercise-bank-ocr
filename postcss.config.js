@@ -1,1 +1,3 @@
-export const plugins = [import('tailwindcss'), import('autoprefixer'), import("tailwindcss-debug-screens")];
+module.exports = {
+  plugins: [require('tailwindcss'), require('autoprefixer')],
+};
